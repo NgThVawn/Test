@@ -15,6 +15,6 @@ class DemoTravisCiApplicationTests {
 	@Test
 	void test() {
 		DemoTravisCiApplication demo = new DemoTravisCiApplication();
-		assertEquals(6, demo.sum(2, 3));
+		assertEquals(5, demo.sum(2, 3));
 	}
 }
