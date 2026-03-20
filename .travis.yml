@@ -13,7 +13,8 @@ env:
   global:
     - SPRING_PROFILES_ACTIVE=test
     - TRAVIS_DEMO_FORCE_FAIL=false
-
+before_install:
+  - chmod +x mvnw
 script:
   - ./mvnw -B test
 
