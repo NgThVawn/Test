@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout :: layout(title=~{::title}, content=~{::main})}">
+<head>
+    <title>Danh Sách Môn Học</title>
+</head>
+<body>
+<main>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+        <div>
+            <h1 class="page-title">Danh sách môn học</h1>
+            <p class="page-subtitle">Quản lý các môn học trong chương trình.</p>
+        </div>
+        <a href="/monhoc/add" class="btn btn-primary" sec:authorize="hasRole('ADMIN')">
+            <i class="bi bi-plus-lg"></i> Thêm môn học
+        </a>
+    </div>
+
+    <div class="panel search-box mb-3">
+        <form action="/monhoc" method="get" class="row g-2">
+            <div class="col-md-9">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="Tìm theo tên môn học...">
+                </div>
+            </div>
+            <div class="col-md-3 d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary w-100 w-md-auto">Tìm kiếm</button>
+                <a href="/monhoc" class="btn btn-outline-secondary w-100 w-md-auto">Đặt lại</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-panel p-3">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Mã môn</th>
+                        <th>Tên môn học</th>
+                        <th class="text-end">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="m : ${dsMonHoc}">
+                        <td th:text="${m.maMon}">Mã môn</td>
+                        <td th:text="${m.tenMonHoc}">Tên môn học</td>
+                        <td class="text-end action-group">
+                            <a th:href="@{/monhoc/{maMon}(maMon=${m.maMon})}" class="btn btn-sm btn-outline-info">Xem</a>
+                            <a th:href="@{/monhoc/edit/{maMon}(maMon=${m.maMon})}"
+                               class="btn btn-sm btn-outline-warning"
+                               sec:authorize="hasRole('ADMIN')">Sửa</a>
+                            <a th:href="@{/monhoc/delete/{maMon}(maMon=${m.maMon})}"
+                               class="btn btn-sm btn-outline-danger"
+                               sec:authorize="hasRole('ADMIN')"
+                               onclick="return confirm('Bạn chắc chắn muốn xóa?')">Xóa</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(dsMonHoc)}">
+                        <td colspan="3" class="text-center text-muted py-4">Không có môn học nào.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <nav th:if="${totalPages > 1}" class="mt-3">
+            <ul class="pagination justify-content-center mb-0">
+                <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{/monhoc(page=0, keyword=${keyword})}">Đầu</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{/monhoc(page=${currentPage - 1}, keyword=${keyword})}">Trước</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == i ? 'active' : ''}">
+                    <a class="page-link" th:href="@{/monhoc(page=${i}, keyword=${keyword})}" th:text="${i + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{/monhoc(page=${currentPage + 1}, keyword=${keyword})}">Sau</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{/monhoc(page=${totalPages - 1}, keyword=${keyword})}">Cuối</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</main>
+</body>
+</html>

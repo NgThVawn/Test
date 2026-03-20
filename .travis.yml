@@ -1,0 +1,19 @@
+language: java
+
+dist: jammy
+
+jdk:
+  - openjdk17
+
+cache:
+  directories:
+    - $HOME/.m2
+
+env:
+  global:
+    - SPRING_PROFILES_ACTIVE=test
+    - TRAVIS_DEMO_FORCE_FAIL=true
+
+script:
+  - ./mvnw -B test
+

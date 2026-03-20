@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Lớp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Quản Lý Sinh Viên</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Trang Chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/sinhvien">Sinh Viên</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/monhoc">Môn Học</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/lop">Lớp</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="page-wrap">
+    <div class="container">
+        <div class="form-panel">
+            <div class="mb-3">
+                <h1 class="page-title">Thêm lớp</h1>
+                <p class="page-subtitle">Tạo lớp mới để gán cho sinh viên.</p>
+            </div>
+
+            <form action="/lop/add" method="post" th:object="${lop}">
+                <div class="mb-3">
+                    <label for="tenLop" class="form-label">Tên lớp *</label>
+                    <input type="text" class="form-control" id="tenLop" th:field="*{tenLop}" placeholder="Ví dụ: CNTT01" required>
+                    <div th:if="${#fields.hasErrors('tenLop')}" class="field-error" th:errors="*{tenLop}"></div>
+                </div>
+
+                <div class="panel-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check2-circle"></i> Lưu
+                    </button>
+                    <a href="/lop" class="btn btn-outline-secondary">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer-clean">
+    <div class="container">
+        2026 - Hệ thống Quản lý Sinh viên
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
